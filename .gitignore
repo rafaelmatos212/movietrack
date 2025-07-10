@@ -1,0 +1,87 @@
+# ===============================
+# === BACKEND (.NET / C#) =======
+# ===============================
+
+## Build outputs
+back/**/bin/
+back/**/obj/
+back/**/TestResults/
+back/**/*.user
+back/**/*.suo
+back/**/*.csproj.user
+back/.vs/
+back/**/.vscode/
+
+## Secrets and configs
+back/**/appsettings.Development.json
+back/**/appsettings.Local.json
+back/**/appsettings.*.json
+
+# EF Core Migrations history (opcional)
+back/**/__EFMigrationsHistory/
+
+# ===============================
+# === FRONTEND (Node.js) ========
+# ===============================
+
+## Node modules & build
+front/node_modules/
+front/.next/
+front/dist/
+front/.turbo/
+front/.eslintcache
+front/.env
+front/.env.local
+front/.env.*.local
+
+## Log files
+front/npm-debug.log*
+front/yarn-debug.log*
+front/yarn-error.log*
+front/pnpm-debug.log*
+
+# ===============================
+# === DOCKER ====================
+# ===============================
+
+# Docker volumes
+db_data/
+volumes/
+**/docker-volume/
+
+# Ignore docker logs
+**/*.pid
+**/*.log
+
+# ===============================
+# === OS / IDE / TOOLS ==========
+# ===============================
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Rider
+.idea/
+
+# VS Code
+.vscode/
+
+# Global log files
+*.log
+
+# ===============================
+# === GIT / ENV FILES ===========
+# ===============================
+
+# Git
+*.orig
+
+# ENV
+.env
+.env.*
+.env.local
