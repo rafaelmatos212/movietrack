@@ -1,11 +1,10 @@
-﻿using MovieTrack.Application.DTOs;
-using MovieTrack.Domain.Entities;
+using MovieTrack.Application.DTOs;
 
-namespace MovieTrack.Domain.Interfaces.Services
+namespace MovieTrack.Application.Interfaces
 {
     public interface IAccountService
     {
-        Task Login(string email, string password);
-        Task<User> Register(RegisterDTO dto);
+        Task<UserDTO> Register(RegisterDTO dto);
+        Task<string> Login(string email, string password);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MovieTrack.Domain.Entities;
 
 namespace MovieTrack.Infra.Data

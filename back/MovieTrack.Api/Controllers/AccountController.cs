@@ -1,8 +1,11 @@
-using Microsoft.AspNetCore.Identity.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieTrack.Application.Interfaces;
 using MovieTrack.Application.Mappers;
 using MovieTrack.Application.RequestsResponse.Register;
-using MovieTrack.Domain.Interfaces.Services;
+using MovieTrack.Application.RequestsResponses.Login;
 
 namespace MovieTrack.Api.Controller
 {
@@ -21,14 +24,33 @@ namespace MovieTrack.Api.Controller
         public async Task<ActionResult<RegisterUserResponse>> Register([FromBody] RegisterUserRequest request)
         {
             var userDto = RegisterMapper.ToDto(request);
-            var user = await _accountService.Register(userDto);
-            return RegisterMapper.ToResponse(user);
+            var userResult = await _accountService.Register(userDto);
+            return RegisterMapper.ToResponse(userResult);
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] Login request)
         {
-            throw new NotImplementedException("Login method is not implemented yet.");
+            try
+            {
+                var token = await _accountService.Login(request.Email, request.Password);
+                return Ok(new { token });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpGet("teste")]
+        public IActionResult Teste()
+        {
+            var userId = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+            var email = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var name = User.FindFirst(ClaimTypes.Name)?.Value;
+
+            return Ok(new { userId, email, name });
         }
     }
 }

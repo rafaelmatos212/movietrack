@@ -1,4 +1,4 @@
-﻿using MovieTrack.Application.DTOs;
+using MovieTrack.Application.DTOs;
 using MovieTrack.Application.RequestsResponse.Register;
 using MovieTrack.Domain.Entities;
 
@@ -21,13 +21,23 @@ namespace MovieTrack.Application.Mappers
             return new User(dto.Name, dto.Email, dto.Password);
         }
 
-        public static RegisterUserResponse ToResponse(User user)
+        public static UserDTO ToUserDto(User user)
         {
-            return new RegisterUserResponse
+            return new UserDTO
             {
                 Id = user.Id,
                 Name = user.Name,
-                Email = user.Email
+                Email = user.Email.Address
+            };
+        }
+
+        public static RegisterUserResponse ToResponse(UserDTO dto)
+        {
+            return new RegisterUserResponse
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Email = dto.Email
             };
         }
     }

@@ -1,8 +1,7 @@
-namespace MovieTrack.Application.DTOs
+namespace MovieTrack.Application.RequestsResponses.Login
 {
-    public class RegisterDTO
+    public class Login
     {
-        public required string Name { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
