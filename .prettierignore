@@ -1,0 +1,4 @@
+front/.next
+front/node_modules
+back/**/bin
+back/**/obj
