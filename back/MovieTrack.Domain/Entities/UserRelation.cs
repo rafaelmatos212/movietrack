@@ -1,13 +1,13 @@
-﻿namespace MovieTrack.Domain.Entities
+namespace MovieTrack.Domain.Entities
 {
     public class UserRelation
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public User User { get; set; }
+        public User User { get; set; } = null!;
 
         public Guid RelatedUserId { get; set; }
-        public User RelatedUser { get; set; }
+        public User RelatedUser { get; set; } = null!;
 
         public DateTime CreatedAt { get; set; }
 

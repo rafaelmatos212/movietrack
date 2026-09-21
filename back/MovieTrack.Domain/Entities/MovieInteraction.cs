@@ -1,4 +1,4 @@
-﻿using MovieTrack.Domain.Enums;
+using MovieTrack.Domain.Enums;
 using MovieTrack.Domain.Exceptions;
 
 namespace MovieTrack.Domain.Entities

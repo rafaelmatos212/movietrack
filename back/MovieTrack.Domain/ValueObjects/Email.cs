@@ -1,15 +1,10 @@
-﻿using MovieTrack.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MovieTrack.Domain.Exceptions;
 
 namespace MovieTrack.Domain.ValueObjects
 {
     public class Email
     {
-        public string Address { get; set; }
+        public string Address { get; private set; } = null!;
 
         private Email() { }
 

@@ -1,4 +1,4 @@
-﻿using MovieTrack.Domain.Entities;
+using MovieTrack.Domain.Entities;
 
 namespace MovieTrack.Domain.Interfaces
 {

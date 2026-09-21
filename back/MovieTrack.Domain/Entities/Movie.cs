@@ -1,4 +1,4 @@
-﻿namespace MovieTrack.Domain.Entities
+namespace MovieTrack.Domain.Entities
 {
     public class Movie
     {

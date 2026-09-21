@@ -1,4 +1,4 @@
-﻿using MovieTrack.Domain.Enums;
+using MovieTrack.Domain.Enums;
 using MovieTrack.Domain.ValueObjects;
 
 namespace MovieTrack.Domain.Entities
@@ -6,12 +6,12 @@ namespace MovieTrack.Domain.Entities
     public class User
     {
         public Guid Id { get; private set; }
-        public string Name { get; private set; }
-        public Email Email { get; private set; }
-        public string PasswordHash { get; set; }
+        public string Name { get; private set; } = null!;
+        public Email Email { get; private set; } = null!;
+        public string PasswordHash { get; set; } = null!;
 
-        public ICollection<UserRelation> UserRelations { get; set; }
-        public ICollection<MovieInteraction> MovieInteractions { get; set; }
+        public ICollection<UserRelation> UserRelations { get; set; } = new List<UserRelation>();
+        public ICollection<MovieInteraction> MovieInteractions { get; set; } = new List<MovieInteraction>();
 
         private User() { }
 
