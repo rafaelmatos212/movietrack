@@ -1,0 +1,33 @@
+---
+description: Convencoes de Clean Architecture no backend .NET
+globs: back/**/*.cs
+alwaysApply: false
+---
+
+# Backend MovieTrack
+
+## Camadas
+
+- `MovieTrack.Domain` — entidades, value objects, interfaces de dominio
+- `MovieTrack.Application` — orquestracao, DTOs, mappers
+- `MovieTrack.Infra` — EF Core, repositórios concretos
+- `MovieTrack.Api` — controllers finos, sem logica de negocio
+
+## Regras
+
+- Namespace espelha a pasta: controllers em `MovieTrack.Api.Controllers`
+- Lance excecoes de dominio (`MovieTrack.Domain.Exceptions`), nunca `Exception` generica
+- Nunca deixe `throw new NotImplementedException` em codigo entregue
+- Testes novos vao em `MovieTrack.Tests/`, espelhando a estrutura do codigo
+
+## Exemplo — controller fino
+
+```csharp
+[HttpPost("register")]
+public async Task<ActionResult<RegisterUserResponse>> Register([FromBody] RegisterUserRequest request)
+{
+    var userDto = RegisterMapper.ToDto(request);
+    var user = await _accountService.Register(userDto);
+    return RegisterMapper.ToResponse(user);
+}
+```

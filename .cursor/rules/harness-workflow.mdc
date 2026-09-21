@@ -1,0 +1,22 @@
+---
+description: Workflow do harness de verificacao
+alwaysApply: true
+---
+
+# Harness MovieTrack
+
+## Antes de concluir qualquer tarefa
+
+Rode `npm run verify` na raiz do projeto. Corrija falhas ate exit code 0.
+
+## Seguranca
+
+- Nunca commitar senhas, tokens ou connection strings
+- Connection string da API vai em User Secrets (ver AGENTS.md)
+- Variaveis de front vao em `.env.local` (gitignored)
+
+## Escopo
+
+- Mudancas focadas no que foi pedido
+- Reutilizar funcoes e componentes existentes
+- Seguir convencoes das regras especificas de back e front

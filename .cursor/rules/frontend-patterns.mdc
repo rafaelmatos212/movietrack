@@ -1,0 +1,28 @@
+---
+description: Padroes do frontend Next.js
+globs: front/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Frontend MovieTrack
+
+## Stack
+
+- Next.js 15 App Router em `front/src/app/`
+- Componentes reutilizaveis em `front/src/components/`
+- Alias `@/` aponta para `front/src/`
+
+## Regras
+
+- Componentes funcionais com TypeScript strict
+- Extrair hooks customizados quando logica for reutilizada
+- Chamadas de API devem usar variavel de ambiente `NEXT_PUBLIC_API_URL`
+- Nome do componente exportado deve corresponder a pagina (ex.: `MoviesPage`, nao `LoginPage`)
+
+## Exemplo — pagina
+
+```tsx
+export default function MoviesPage() {
+  return <main>...</main>;
+}
+```
