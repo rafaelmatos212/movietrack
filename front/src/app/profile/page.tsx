@@ -1,5 +1,3 @@
 export default function LoginPage() {
-    return (
-    <h1>PROFILE</h1>
-    )
+  return <h1>PROFILE</h1>;
 }

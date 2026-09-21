@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function handleLogin(event: React.FormEvent) {
-    event.preventDefault()
-    console.log(email, password)
+    event.preventDefault();
+    console.log(email, password);
   }
 
   return (
@@ -18,10 +18,12 @@ export default function LoginPage() {
           Bem-vindo de volta
         </h1>
 
-        <form
-          className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Email
             </label>
             <input
@@ -30,13 +32,18 @@ export default function LoginPage() {
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               placeholder="Digite seu email"
               value={email}
-              onChange={(e) => {setEmail(e.target.value)}}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               Senha
             </label>
             <input
@@ -44,6 +51,7 @@ export default function LoginPage() {
               id="password"
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               placeholder="********"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
@@ -58,7 +66,7 @@ export default function LoginPage() {
         </form>
 
         <p className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-          Não tem uma conta?{" "}
+          Não tem uma conta?{' '}
           <a href="/register" className="text-blue-600 hover:underline dark:text-blue-400">
             Cadastre-se
           </a>
