@@ -91,3 +91,4 @@ Desktop.ini
 .env
 .env.*
 .env.local
+!.env.example
