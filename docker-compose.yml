@@ -1,34 +1,40 @@
-version: '3.9'
-
 services:
   db:
-    image: postgres:latest
+    image: postgres:16
     container_name: movietrack_db
     restart: always
     environment:
       POSTGRES_USER: user
-      POSTGRES_PASSWORD: Pass123$
+      POSTGRES_PASSWORD: Pass123$$
       POSTGRES_DB: movietrack_db
     ports:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d movietrack_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     networks:
       - movienet
 
-  # api:
-  #   build:
-  #     context: ./back/MovieTrack.Api
-  #   container_name: movietrack_api
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "5000:80"
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: Development
-  #     ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=movietrack_db;Username=user;Password=Pass123$"
-  #   networks:
-  #     - movienet
+  #api:
+  #  build:
+  #    context: ./back
+  #    dockerfile: MovieTrack.Api/Dockerfile
+  #  container_name: movietrack_api
+  #  depends_on:
+  #    db:
+  #      condition: service_healthy
+  #  ports:
+  #    - "5000:8080"
+  #  environment:
+  #    ASPNETCORE_ENVIRONMENT: Development
+  #    ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=movietrack_db;Username=user;Password=Pass123$$"
+  #  networks:
+  #    - movienet
 
 volumes:
   db_data:
