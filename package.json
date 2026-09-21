@@ -1,0 +1,25 @@
+{
+  "name": "movietrack",
+  "private": true,
+  "scripts": {
+    "verify": "npm run verify:back && npm run verify:front",
+    "verify:back": "npm run fmt:back:check && npm run build:back && npm run test:back",
+    "verify:front": "npm run fmt:front:check && npm run lint:front && npm run typecheck:front",
+    "fmt:back:check": "dotnet format back/MovieTrack.sln --verify-no-changes",
+    "fmt:back": "dotnet format back/MovieTrack.sln",
+    "build:back": "dotnet build back/MovieTrack.sln --warnaserror",
+    "test:back": "dotnet test back/MovieTrack.sln --no-build",
+    "fmt:front:check": "prettier --check \"front/src/**/*.{ts,tsx,css}\"",
+    "fmt:front": "prettier --write \"front/src/**/*.{ts,tsx,css}\"",
+    "lint:front": "npm --prefix front run lint",
+    "typecheck:front": "npm --prefix front run typecheck",
+    "fix": "npm run fmt:back && npm run fmt:front && npm --prefix front run lint -- --fix",
+    "dev:back": "dotnet run --project back/MovieTrack.Api",
+    "dev:front": "npm --prefix front run dev",
+    "db:up": "docker compose up -d",
+    "db:migrate": "dotnet ef database update --project back/MovieTrack.Infra --startup-project back/MovieTrack.Api"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
