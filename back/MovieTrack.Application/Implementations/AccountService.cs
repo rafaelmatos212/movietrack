@@ -1,4 +1,5 @@
 using MovieTrack.Application.DTOs;
+using MovieTrack.Application.Exceptions;
 using MovieTrack.Application.Interfaces;
 using MovieTrack.Application.Mappers;
 using MovieTrack.Application.Security;
@@ -19,33 +20,23 @@ namespace MovieTrack.Application.Implementations
 
         public async Task<UserDTO> Register(RegisterDTO dto)
         {
-            try
-            {
-                if (dto == null)
-                    throw new Exception("Dados de registro não podem ser nulos.");
+            var existingUser = await _userRepository.GetByEmailAsync(dto.Email);
+            if (existingUser is not null)
+                throw new ConflictException("Não foi possível concluir o cadastro com os dados informados.");
 
-                var userExists = await _userRepository.GetByEmailAsync(dto.Email);
-                if (userExists != null)
-                    throw new Exception("E-mail já está em uso.");
+            dto.Password = PasswordHasher.Hash(dto.Password);
 
-                dto.Password = PasswordHasher.Hash(dto.Password);
-
-                var user = RegisterMapper.ToEntity(dto);
-                var createdUser = await _userRepository.AddAsync(user);
-                return RegisterMapper.ToUserDto(createdUser);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao registrar usuário. Verifique os dados e tente novamente.", ex);
-            }
+            var user = RegisterMapper.ToEntity(dto);
+            var createdUser = await _userRepository.AddAsync(user);
+            return RegisterMapper.ToUserDto(createdUser);
         }
 
         public async Task<string> Login(string email, string password)
         {
             var user = await _userRepository.GetByEmailAsync(email);
 
-            if (user == null || !PasswordHasher.VerifyPassword(password, user.PasswordHash))
-                throw new UnauthorizedAccessException("E-mail ou senha inválidos.");
+            if (user is null || !PasswordHasher.VerifyPassword(password, user.PasswordHash))
+                throw new AuthenticationFailedException();
 
             return _tokenService.GenerateToken(user);
         }

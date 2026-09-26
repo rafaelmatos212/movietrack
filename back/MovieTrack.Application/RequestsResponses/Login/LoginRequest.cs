@@ -1,6 +1,6 @@
-namespace MovieTrack.Application.RequestsResponses.Login
+namespace MovieTrack.Application.RequestsResponse.Login
 {
-    public class Login
+    public class LoginRequest
     {
         public required string Email { get; set; }
         public required string Password { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MovieTrack.Api.ExceptionHandling;
 using MovieTrack.Application.Implementations;
 using MovieTrack.Application.Interfaces;
 using MovieTrack.Domain.Interfaces;
@@ -78,7 +79,19 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 // --- Fim autenticação JWT ---
 
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = ctx =>
+    {
+        ctx.ProblemDetails.Extensions["traceId"] = ctx.HttpContext.TraceIdentifier;
+    };
+});
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
