@@ -1,4 +1,4 @@
-﻿namespace MovieTrack.Application.Exceptions
+namespace MovieTrack.Application.Exceptions
 {
     public abstract class AppException : Exception
     {
