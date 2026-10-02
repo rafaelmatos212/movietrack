@@ -2,28 +2,28 @@
 
 Projeto fullstack para gerenciar interações com filmes.
 
-- **Backend:** .NET 8, Clean Architecture, PostgreSQL, EF Core — pasta [`back/`](back/)
+- **Backend:** .NET 10, Clean Architecture, PostgreSQL, EF Core — pasta [`back/`](back/)
 - **Frontend:** Next.js 15 (App Router), React 19, TypeScript strict — pasta [`front/`](front/)
 
 ## Comando obrigatório
 
 Antes de concluir qualquer tarefa, rode na raiz:
 
-```bash
+​```bash
 npm run verify
-```
+​```
 
 Exit code 0 = pronto. Exit code diferente de zero = corrigir e rodar de novo.
 
 ## Estrutura do backend
 
-```
+​```
 MovieTrack.Domain       → entidades, value objects, exceções (sem dependências externas)
-MovieTrack.Application  → serviços, DTOs, mappers
+MovieTrack.Application  → serviços, interfaces, DTOs, mappers
 MovieTrack.Infra        → EF Core, repositórios, migrations
 MovieTrack.Api          → controllers, Program.cs
 MovieTrack.Tests        → testes xUnit
-```
+​```
 
 ### Fronteiras
 
@@ -35,26 +35,42 @@ MovieTrack.Tests        → testes xUnit
 - Application services/use cases são responsáveis por orquestrar o fluxo da aplicação,
   não por concentrar regras de negócio do domínio.
 
+### Convenções de fluxo   <!-- NOVO -->
+
+- Interfaces de serviços de aplicação ficam em `MovieTrack.Application/Interfaces`
+- Entidades nunca saem de Domain/Application; controllers só lidam com Request/Response
+- Fluxo: Request -> DTO -> Entidade -> DTO de saída -> Response
+- Erros de autenticação são sempre genéricos (evita enumeration attack)
+
 ## Desenvolvimento local
 
-```bash
+​```bash
 npm run db:up          # PostgreSQL via Docker
 npm run db:migrate     # aplicar migrations
 npm run dev:back       # API em http://localhost:5264
 npm run dev:front      # Next.js em http://localhost:3000
-```
+​```
 
-### Connection string (obrigatório para rodar a API)
+### Variáveis do Docker (`.env` na raiz, gitignored)   <!-- NOVO -->
 
-A connection string não fica no repositório. Configure via User Secrets:
+O `docker-compose.yml` lê `POSTGRES_USER`, `POSTGRES_PASSWORD` e `POSTGRES_DB`
+de um arquivo `.env` na raiz. Esse arquivo não vai para o Git.
 
-```bash
+### Segredos da API (obrigatório para rodar)   <!-- ALTERADO -->
+
+Nada disso fica no repositório. Configure via User Secrets:
+
+​```bash
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" \
-  "Host=localhost;Port=5432;Database=movietrack_db;Username=user;Password=SUA_SENHA" \
+  "Host=localhost;Port=5432;Database=SEU_DB;Username=SEU_USER;Password=SUA_SENHA" \
   --project back/MovieTrack.Api
-```
 
-Use as credenciais do [`docker-compose.yml`](docker-compose.yml).
+dotnet user-secrets set "Jwt:Key" "CHAVE_ALEATORIA_COM_32+_BYTES" \
+  --project back/MovieTrack.Api
+​```
+
+Use os mesmos valores do seu `.env`. Em produção, use variáveis de ambiente
+(`ConnectionStrings__DefaultConnection`, `Jwt__Key`).
 
 ## Scripts do harness
 
@@ -74,15 +90,4 @@ Use as credenciais do [`docker-compose.yml`](docker-compose.yml).
 
 ## Comportamento do agente
 
-Antes de implementar uma alteração:
-
-1. Leia o AGENTS.md e as regras aplicáveis.
-2. Inspecione o código existente relacionado à tarefa.
-3. Identifique as camadas afetadas.
-4. Respeite as fronteiras arquiteturais existentes.
-5. Reutilize abstrações existentes quando apropriado.
-6. Não crie abstrações, padrões ou dependências desnecessárias.
-7. Não altere contratos existentes sem avaliar os impactos.
-8. Implemente a menor alteração necessária para atender ao requisito.
-9. Execute os testes e verificações obrigatórias.
-10. Não considere a tarefa concluída enquanto `npm run verify` não passar.
+(manter como está)

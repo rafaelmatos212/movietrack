@@ -2,13 +2,13 @@ services:
   db:
     image: postgres:16
     container_name: movietrack_db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
@@ -29,10 +29,13 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "5000:8080"
+      - "127.0.0.1:5264:8080"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: MovieTrack.Api
+      Jwt__Audience: MovieTrack.Client
     networks:
       - movienet
 
