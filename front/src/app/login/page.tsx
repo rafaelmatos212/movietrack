@@ -1,14 +1,32 @@
 'use client';
 
+import { ApiError } from '@/services/api';
+import { login } from '@/services/auth/authService';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  function handleLogin(event: React.FormEvent) {
+  async function handleLogin(event: React.FormEvent) {
     event.preventDefault();
     console.log(email, password);
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const { token } = await login({ email, password });
+      localStorage.setItem('token', token)
+      router.push('/movies')
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : 'Error connecting to the server.');
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
